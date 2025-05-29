@@ -1,8 +1,19 @@
 import { useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
+// Definimos el tipo para los datos del webhook
+interface WebhookData {
+  timestamp?: string;
+  method?: string;
+  url?: string;
+  headers?: Record<string, string>;
+  body?: unknown;
+  query?: Record<string, string>;
+  [key: string]: unknown; // Permitir propiedades adicionales
+}
+
 export function useWebhookSocket() {
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<WebhookData | null>(null);
 
   useEffect(() => {
     const socket: Socket = io(
